@@ -4,6 +4,7 @@ import axios from 'axios';
 import '@testing-library/jest-dom';
 import App from './App';
 import PostSection from './components/PostSection/view';
+import GetSection from './components/GetSection/view';
 
 test('App renders React Axios example - netlify hihihihihih ', async () => {
 	render(<App />);
@@ -13,17 +14,41 @@ test('App renders React Axios example - netlify hihihihihih ', async () => {
 	expect(text).toBeInTheDocument();
 });
 
-const testText = 'inijudul';
+test('renders text', async () => {
+	const testText = 'hehe';
+	const resultText = 'hehe';
+	render(<PostSection />);
+
+	// cari elemen input
+	const input = screen.getByTestId('title');
+
+	// elemen input ketik "hehe"
+	userEvent.type(input, testText);
+
+	// pastiin elemen dengan text "hehe" ada di dokumen
+	const textElement = await screen.findByText(resultText);
+	expect(textElement).toBeInTheDocument();
+});
+
+const testText = 'hehe';
+
 const mockResponse = {
-	postData: {
-		title: testText,
+	data: {
+		data: [
+			{
+				id: 1,
+				name: 'Kue Kering',
+				price: 10000,
+				stock: 100,
+				imageUrl: '',
+			},
+		],
 	},
 };
-
-test('Check Input Post Section', async () => {
+test('renders fact', async () => {
 	await act(async () => {
 		await axios.get.mockImplementationOnce(() => Promise.resolve(mockResponse));
-		render(<PostSection />);
+		render(<GetSection />);
 	});
 	const textElement = await screen.getByText(testText);
 	expect(textElement).toBeInTheDocument();
