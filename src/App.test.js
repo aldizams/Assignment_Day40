@@ -31,7 +31,6 @@ test('renders text', async () => {
 });
 
 const testText = 'hehe';
-
 const mockResponse = {
 	data: {
 		data: [
